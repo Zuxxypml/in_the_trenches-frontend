@@ -19,27 +19,27 @@ const Form = ({ currentId, setCurrentId }) => {
     selectedFile: "",
   });
 
-    const clear = () => {
-      setCurrentId(null);
-      setPostData({
-        creator: "",
-        title: "",
-        message: "",
-        tags: "",
-        selectedFile: "",
-      });
+  const clear = () => {
+    setCurrentId(null);
+    setPostData({
+      creator: "",
+      title: "",
+      message: "",
+      tags: "",
+      selectedFile: "",
+    });
   };
-  
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (currentId) {
       dispatch(updatePost(currentId, postData));
+      console.log(postData);
     } else {
       dispatch(createPost(postData));
     }
     clear();
   };
-
 
   useEffect(() => {
     if (post) {
@@ -92,7 +92,9 @@ const Form = ({ currentId, setCurrentId }) => {
           variant="outlined"
           label="Tags"
           value={postData.tags}
-          onChange={(e) => setPostData({ ...postData, tags: e.target.value })}
+          onChange={(e) =>
+            setPostData({ ...postData, tags: e.target.value.split(",") })
+          }
         />
         <div className={classes.fileInput}>
           <FileBase
